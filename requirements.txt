@@ -9,7 +9,7 @@ chromadb>=0.5
 rank-bm25>=0.2
 
 # Web & document tools
-duckduckgo-search>=6.0
+ddgs>=7.0
 httpx>=0.27
 beautifulsoup4>=4.12
 pypdf>=4.0

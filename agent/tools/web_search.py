@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import asyncio
 
-from duckduckgo_search import DDGS
+try:
+    from ddgs import DDGS
+except ImportError:
+    from duckduckgo_search import DDGS
 from pydantic import BaseModel, Field
 
 from agent.tools.base import BaseTool
