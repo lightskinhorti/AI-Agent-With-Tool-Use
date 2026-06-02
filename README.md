@@ -88,7 +88,7 @@ uvicorn api.main:app --reload
 streamlit run ui/app.py
 
 # Or use the CLI directly
-python -m agent.run "Analyze VTC tax obligations according to Spanish law"
+python -m agent.run "What are the key principles of the EU AI Act and how do they affect tech companies?"
 ```
 
 ### Run Tests

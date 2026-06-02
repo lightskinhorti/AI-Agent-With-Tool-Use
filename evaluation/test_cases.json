@@ -65,9 +65,9 @@
   },
   {
     "id": "multi_tool_01",
-    "task": "Compare what our knowledge base says about VTC regulations with the latest web information, and generate a summary report.",
+    "task": "Compare what our knowledge base says about data protection regulations with the latest web information, and generate a summary report.",
     "expected_tools": ["rag_search", "web_search", "report_writer"],
-    "expected_keywords": ["VTC", "regulation"],
+    "expected_keywords": ["data", "protection", "regulation"],
     "category": "multi_tool",
     "difficulty": "hard"
   },
