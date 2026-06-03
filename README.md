@@ -162,6 +162,21 @@ Each tool has retry logic with exponential backoff. If a tool fails after 3 retr
 └── Dockerfile          # Multi-stage build
 ```
 
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [**PDF Guide (16 pages)**](docs/RAG_Agent_Guide.pdf) | Complete architecture, API reference, design decisions, and example flows |
+| [Architecture Guide](docs/architecture.md) | System architecture, agent flow, state management, error handling |
+| [Usage Guide](docs/usage_guide.md) | Installation, configuration, CLI/API/UI usage, adding documents |
+| [Example Output](examples/sample_output.md) | What a real agent execution looks like end-to-end |
+| [Example Trace](examples/sample_trace.json) | Full execution trace JSON for a multi-tool task |
+
+To regenerate the PDF:
+```bash
+python docs/generate_pdf.py
+```
+
 ## Roadmap
 
 - [ ] **MCP Integration** — Expose tools via Model Context Protocol for interoperability

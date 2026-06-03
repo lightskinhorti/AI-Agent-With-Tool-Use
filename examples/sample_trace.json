@@ -1,0 +1,84 @@
+{
+  "run_id": "example-001",
+  "task": "Research AI agent frameworks and create a comparison report",
+  "trace": [
+    {
+      "step": 0,
+      "node": "planner",
+      "status": "executing",
+      "data": {
+        "plan_steps": 4,
+        "tools_selected": ["rag_search", "web_search", "web_search", "report_writer"],
+        "tokens_used": 450
+      }
+    },
+    {
+      "step": 1,
+      "node": "executor",
+      "status": "executing",
+      "data": {
+        "tool": "rag_search",
+        "args": {"query": "AI agent frameworks", "top_k": 5},
+        "success": true,
+        "latency_ms": 340,
+        "results_count": 5
+      }
+    },
+    {
+      "step": 2,
+      "node": "executor",
+      "status": "executing",
+      "data": {
+        "tool": "web_search",
+        "args": {"query": "best AI agent frameworks 2025"},
+        "success": true,
+        "latency_ms": 1200,
+        "results_count": 5
+      }
+    },
+    {
+      "step": 3,
+      "node": "executor",
+      "status": "executing",
+      "data": {
+        "tool": "web_search",
+        "args": {"query": "LangGraph vs CrewAI production comparison"},
+        "success": true,
+        "latency_ms": 980,
+        "results_count": 5
+      }
+    },
+    {
+      "step": 4,
+      "node": "executor",
+      "status": "reviewing",
+      "data": {
+        "tool": "report_writer",
+        "success": true,
+        "latency_ms": 2
+      }
+    },
+    {
+      "step": 5,
+      "node": "reviewer",
+      "status": "complete",
+      "data": {
+        "decision": "complete",
+        "reflection": "Results are sufficient. Knowledge base + web search provided comprehensive data for comparison.",
+        "tokens_used": 200
+      }
+    },
+    {
+      "step": 6,
+      "node": "finalizer",
+      "status": "complete",
+      "data": {
+        "answer_length": 1250,
+        "tokens_used": 380,
+        "total_tokens": 2340,
+        "total_tool_latency_ms": 2522,
+        "tool_success_rate": 1.0
+      }
+    }
+  ]
+}
