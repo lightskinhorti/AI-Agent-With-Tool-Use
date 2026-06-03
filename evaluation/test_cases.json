@@ -1,0 +1,162 @@
+[
+  {
+    "id": "rag_basic_01",
+    "task": "Search the knowledge base for information about legal obligations for businesses in Spain.",
+    "expected_tools": ["rag_search"],
+    "expected_keywords": ["legal", "obligations"],
+    "category": "rag_retrieval",
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_basic_02",
+    "task": "Find documents in the knowledge base related to tax regulations.",
+    "expected_tools": ["rag_search"],
+    "expected_keywords": ["tax", "regulation"],
+    "category": "rag_retrieval",
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_basic_03",
+    "task": "What does the knowledge base say about data protection and privacy laws?",
+    "expected_tools": ["rag_search"],
+    "expected_keywords": ["data", "protection", "privacy"],
+    "category": "rag_retrieval",
+    "difficulty": "medium"
+  },
+  {
+    "id": "rag_basic_04",
+    "task": "Search for articles about labor law and worker rights in the corpus.",
+    "expected_tools": ["rag_search"],
+    "expected_keywords": ["labor", "worker", "rights"],
+    "category": "rag_retrieval",
+    "difficulty": "medium"
+  },
+  {
+    "id": "web_search_01",
+    "task": "What are the latest AI regulations proposed by the European Union in 2025?",
+    "expected_tools": ["web_search"],
+    "expected_keywords": ["EU", "AI", "regulation"],
+    "category": "web_search",
+    "difficulty": "easy"
+  },
+  {
+    "id": "web_search_02",
+    "task": "Find recent news about autonomous driving regulations in Spain.",
+    "expected_tools": ["web_search"],
+    "expected_keywords": ["autonomous", "driving", "Spain"],
+    "category": "web_search",
+    "difficulty": "easy"
+  },
+  {
+    "id": "web_search_03",
+    "task": "What is the current status of the Spanish digital transformation strategy?",
+    "expected_tools": ["web_search"],
+    "expected_keywords": ["Spain", "digital"],
+    "category": "web_search",
+    "difficulty": "medium"
+  },
+  {
+    "id": "web_search_04",
+    "task": "Search for the latest developments in LangGraph framework for AI agents.",
+    "expected_tools": ["web_search"],
+    "expected_keywords": ["LangGraph", "agent"],
+    "category": "web_search",
+    "difficulty": "medium"
+  },
+  {
+    "id": "multi_tool_01",
+    "task": "Compare what our knowledge base says about data protection regulations with the latest web information, and generate a summary report.",
+    "expected_tools": ["rag_search", "web_search", "report_writer"],
+    "expected_keywords": ["data", "protection", "regulation"],
+    "category": "multi_tool",
+    "difficulty": "hard"
+  },
+  {
+    "id": "multi_tool_02",
+    "task": "Research AI ethics guidelines from both our documents and the web, then compile a structured report with the key principles.",
+    "expected_tools": ["rag_search", "web_search", "report_writer"],
+    "expected_keywords": ["ethics", "AI", "principles"],
+    "category": "multi_tool",
+    "difficulty": "hard"
+  },
+  {
+    "id": "multi_tool_03",
+    "task": "Find information about GDPR compliance in our knowledge base and supplement with the latest web resources. Store the key findings in memory for future reference.",
+    "expected_tools": ["rag_search", "web_search", "memory_store"],
+    "expected_keywords": ["GDPR", "compliance"],
+    "category": "multi_tool",
+    "difficulty": "hard"
+  },
+  {
+    "id": "multi_tool_04",
+    "task": "Search our documents for environmental regulations, find the latest updates online, and create a detailed report.",
+    "expected_tools": ["rag_search", "web_search", "report_writer"],
+    "expected_keywords": ["environmental", "regulation"],
+    "category": "multi_tool",
+    "difficulty": "hard"
+  },
+  {
+    "id": "code_exec_01",
+    "task": "Calculate the compound interest for an investment of 10000 euros at 5% annual rate over 10 years.",
+    "expected_tools": ["code_executor"],
+    "expected_keywords": ["16288", "compound", "interest"],
+    "category": "code_execution",
+    "difficulty": "easy"
+  },
+  {
+    "id": "code_exec_02",
+    "task": "Generate the first 20 Fibonacci numbers and calculate their sum.",
+    "expected_tools": ["code_executor"],
+    "expected_keywords": ["6765", "17710"],
+    "category": "code_execution",
+    "difficulty": "medium"
+  },
+  {
+    "id": "code_exec_03",
+    "task": "Calculate basic statistics (mean, median, std) for this dataset: [23, 45, 12, 67, 34, 89, 56, 78, 90, 11]",
+    "expected_tools": ["code_executor"],
+    "expected_keywords": ["50.5", "mean", "median"],
+    "category": "code_execution",
+    "difficulty": "medium"
+  },
+  {
+    "id": "code_exec_04",
+    "task": "Write and run a Python function that checks if a number is prime, then test it with the numbers 17, 21, and 97.",
+    "expected_tools": ["code_executor"],
+    "expected_keywords": ["17", "prime", "97"],
+    "category": "code_execution",
+    "difficulty": "medium"
+  },
+  {
+    "id": "memory_report_01",
+    "task": "Remember that my preferred language for reports is Spanish, then confirm what you stored.",
+    "expected_tools": ["memory_store"],
+    "expected_keywords": ["stored", "Spanish"],
+    "category": "memory_and_report",
+    "difficulty": "easy"
+  },
+  {
+    "id": "memory_report_02",
+    "task": "List all items currently stored in memory.",
+    "expected_tools": ["memory_store"],
+    "expected_keywords": ["memory"],
+    "category": "memory_and_report",
+    "difficulty": "easy"
+  },
+  {
+    "id": "memory_report_03",
+    "task": "Create a report titled 'AI Agent Architecture' with sections on Planning, Execution, and Review. Include a brief description of each component.",
+    "expected_tools": ["report_writer"],
+    "expected_keywords": ["Planning", "Execution", "Review"],
+    "category": "memory_and_report",
+    "difficulty": "medium"
+  },
+  {
+    "id": "memory_report_04",
+    "task": "Store a note in memory with key 'project_status' and value 'Phase 1 complete - tools and graph working', then create a brief status report.",
+    "expected_tools": ["memory_store", "report_writer"],
+    "expected_keywords": ["Phase 1", "complete", "stored"],
+    "category": "memory_and_report",
+    "difficulty": "medium"
+  }
+]
