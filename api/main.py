@@ -37,9 +37,11 @@ app.add_middleware(
 
 from api.routes.agent import router as agent_router
 from api.routes.hitl import router as hitl_router
+from api.routes.reports import router as reports_router
 
 app.include_router(agent_router, prefix="/agent", tags=["agent"])
 app.include_router(hitl_router, prefix="/agent", tags=["hitl"])
+app.include_router(reports_router, prefix="/reports", tags=["reports"])
 
 
 @app.get("/health")

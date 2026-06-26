@@ -83,6 +83,34 @@ with st.sidebar:
         st.info("Run an agent task to see metrics.")
 
     st.divider()
+    st.header("Generated Reports")
+    reports_data = _api("get", "/reports/list")
+    if reports_data and reports_data.get("reports"):
+        for report in reports_data["reports"][:10]:
+            filename = report["filename"]
+            with st.expander(f"📄 {filename}", expanded=False):
+                content = _api("get", f"/reports/view/{filename}")
+                if isinstance(content, dict):
+                    st.markdown(str(content))
+                else:
+                    try:
+                        import requests as _r
+                        resp = _r.get(f"{API_BASE}/reports/view/{filename}", timeout=10)
+                        if resp.ok:
+                            st.markdown(resp.text)
+                            st.download_button(
+                                "⬇️ Download",
+                                resp.text,
+                                file_name=filename,
+                                mime="text/markdown",
+                                key=f"dl_{filename}",
+                            )
+                    except Exception as e:
+                        st.error(f"Failed to load: {e}")
+    else:
+        st.caption("No reports yet.")
+
+    st.divider()
     if st.button("🔄 New Session", use_container_width=True):
         st.session_state.run_id = None
         st.session_state.messages = []

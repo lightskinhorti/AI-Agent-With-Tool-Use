@@ -16,7 +16,7 @@ class ReportWriterInput(BaseModel):
         description="Mapping of section heading to section content"
     )
     save_to_file: bool = Field(
-        default=False, description="Save report to data/reports/"
+        default=True, description="Save report to data/reports/ (recommended: true)"
     )
 
 
@@ -24,7 +24,8 @@ class ReportWriterTool(BaseTool):
     name = "report_writer"
     description = (
         "Generate a structured Markdown report from provided sections and content. "
-        "Optionally saves to file."
+        "Saves to data/reports/ by default. Use this whenever the user asks for a "
+        "report, document, summary, or written output."
     )
 
     def get_schema(self) -> type[BaseModel]:
