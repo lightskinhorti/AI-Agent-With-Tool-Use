@@ -75,7 +75,16 @@ async def get_status(run_id: str):
     async with get_async_checkpointer() as checkpointer:
         config = {"configurable": {"thread_id": run_id}}
         checkpoint_tuple = await checkpointer.aget_tuple(config)
+
         if not checkpoint_tuple:
+            if run_id in _active_runs:
+                task = _active_runs[run_id]
+                status = "starting" if not task.done() else "error"
+                return AgentStatusResponse(
+                    run_id=run_id, status=status, current_step=0,
+                    total_steps=0, requires_human=False,
+                    pending_tool_call=None, plan=[], tool_calls_made=0,
+                )
             raise HTTPException(404, f"Run {run_id} not found")
 
         state = checkpoint_tuple.checkpoint.get("channel_values", {})
@@ -103,6 +112,17 @@ async def get_result(run_id: str):
         config = {"configurable": {"thread_id": run_id}}
         checkpoint_tuple = await checkpointer.aget_tuple(config)
         if not checkpoint_tuple:
+            if run_id in _active_runs and _active_runs[run_id].done():
+                error_msg = "Agent failed before producing results"
+                try:
+                    _active_runs[run_id].result()
+                except Exception as e:
+                    error_msg = str(e)
+                return AgentResultResponse(
+                    run_id=run_id, status="error",
+                    final_answer=f"Error: {error_msg}",
+                    metadata={}, tool_results=[], reflections=[],
+                )
             raise HTTPException(404, f"Run {run_id} not found")
 
         state = checkpoint_tuple.checkpoint.get("channel_values", {})

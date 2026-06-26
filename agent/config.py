@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     sqlite_db_path: Path = Path("./data/agent.db")
     memory_db_path: Path = Path("./data/memory.db")
     log_level: str = "INFO"
-    agent_model: str = "claude-sonnet-4-20250514"
+    agent_model: str = "claude-3-5-sonnet-20241022"
     agent_max_steps: int = 15
     hitl_timeout_seconds: int = 300
 
