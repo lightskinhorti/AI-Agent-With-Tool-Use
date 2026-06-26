@@ -321,26 +321,35 @@ async def hitl_gate(state: AgentState) -> dict[str, Any]:
 async def finalizer(state: AgentState) -> dict[str, Any]:
     llm = _get_llm()
 
+    tool_results = state.get("tool_results") or []
+    successful = [r for r in tool_results if r.get("success", False)]
+    failed = [r for r in tool_results if not r.get("success", False)]
+
     results_context = "\n\n".join(
-        f"[{r['tool_name']}]:\n{r['result']}"
-        for r in (state.get("tool_results") or [])
-        if r.get("success", False)
+        f"[{r['tool_name']}]:\n{r['result']}" for r in successful
     )
+
+    failed_context = ""
+    if failed:
+        failed_names = ", ".join(r["tool_name"] for r in failed)
+        failed_context = f"\n\nNote: These tools failed: {failed_names}. Use your own knowledge to compensate."
 
     reflections_text = "\n".join(state.get("reflections") or [])
 
     system_prompt = """You are a synthesis agent. Create a comprehensive, well-structured answer
 based on the research results provided. Include specific details, data, and references
-from the tool results. If results are partial or insufficient, clearly state what
-information is available and what gaps remain. Write in the same language as the task."""
+from the tool results. If some tools failed, use your own knowledge to provide the best
+possible answer — never respond with just "tools failed" or leave the user without an answer.
+Write in the same language as the task."""
 
     messages = [
         SystemMessage(content=system_prompt),
         HumanMessage(
             content=(
                 f"Task: {state['task']}\n\n"
-                f"Research Results:\n{results_context}\n\n"
+                f"Research Results:\n{results_context or '(No successful tool results available — use your own knowledge.)'}\n\n"
                 f"Reflections:\n{reflections_text}"
+                f"{failed_context}"
             )
         ),
     ]
@@ -348,9 +357,8 @@ information is available and what gaps remain. Write in the same language as the
     response = await llm.ainvoke(messages)
 
     total_latency = sum(
-        r.get("latency_ms", 0) for r in (state.get("tool_results") or [])
+        r.get("latency_ms", 0) for r in tool_results
     )
-    tool_results = state.get("tool_results") or []
     success_count = sum(1 for r in tool_results if r.get("success"))
     success_rate = success_count / max(len(tool_results), 1)
 

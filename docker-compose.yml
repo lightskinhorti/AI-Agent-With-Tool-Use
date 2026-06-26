@@ -8,6 +8,9 @@ services:
       - agent-data:/app/data
     env_file:
       - .env
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 30s

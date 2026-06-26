@@ -21,7 +21,7 @@ from api.schemas import (
 router = APIRouter()
 log = structlog.get_logger()
 
-_active_runs: dict[str, asyncio.Task] = {}
+active_runs: dict[str, asyncio.Task] = {}
 
 
 def _initial_state(task: str) -> dict[str, Any]:
@@ -59,11 +59,11 @@ async def _run_graph(run_id: str, task: str) -> None:
 async def run_agent(request: AgentRunRequest):
     run_id = request.thread_id or str(uuid4())
 
-    if run_id in _active_runs and not _active_runs[run_id].done():
+    if run_id in active_runs and not active_runs[run_id].done():
         raise HTTPException(409, f"Run {run_id} is already active")
 
     task = asyncio.create_task(_run_graph(run_id, request.task))
-    _active_runs[run_id] = task
+    active_runs[run_id] = task
 
     return AgentRunResponse(
         run_id=run_id, status="started", message="Agent run initiated"
@@ -77,8 +77,8 @@ async def get_status(run_id: str):
         checkpoint_tuple = await checkpointer.aget_tuple(config)
 
         if not checkpoint_tuple:
-            if run_id in _active_runs:
-                task = _active_runs[run_id]
+            if run_id in active_runs:
+                task = active_runs[run_id]
                 status = "starting" if not task.done() else "error"
                 return AgentStatusResponse(
                     run_id=run_id, status=status, current_step=0,
@@ -89,7 +89,7 @@ async def get_status(run_id: str):
 
         state = checkpoint_tuple.checkpoint.get("channel_values", {})
 
-        is_active = run_id in _active_runs and not _active_runs[run_id].done()
+        is_active = run_id in active_runs and not active_runs[run_id].done()
         status = state.get("status", "unknown")
         if not is_active and status not in ("complete", "error", "waiting_human"):
             status = "complete"
@@ -112,10 +112,10 @@ async def get_result(run_id: str):
         config = {"configurable": {"thread_id": run_id}}
         checkpoint_tuple = await checkpointer.aget_tuple(config)
         if not checkpoint_tuple:
-            if run_id in _active_runs and _active_runs[run_id].done():
+            if run_id in active_runs and active_runs[run_id].done():
                 error_msg = "Agent failed before producing results"
                 try:
-                    _active_runs[run_id].result()
+                    active_runs[run_id].result()
                 except Exception as e:
                     error_msg = str(e)
                 return AgentResultResponse(

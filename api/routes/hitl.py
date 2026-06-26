@@ -7,12 +7,11 @@ from fastapi import APIRouter, HTTPException
 
 from agent.checkpointer import get_async_checkpointer
 from agent.graph import compile_graph
+from api.routes.agent import active_runs
 from api.schemas import HITLRequest, HITLResponse
 
 router = APIRouter()
 log = structlog.get_logger()
-
-_resume_tasks: dict[str, asyncio.Task] = {}
 
 
 async def _resume_graph(run_id: str, feedback: str) -> None:
@@ -48,7 +47,7 @@ async def approve(run_id: str, request: HITLRequest = HITLRequest()):
             raise HTTPException(400, f"Run {run_id} is not waiting for human input")
 
     task = asyncio.create_task(_resume_graph(run_id, "approved"))
-    _resume_tasks[run_id] = task
+    active_runs[run_id] = task
 
     return HITLResponse(
         status="approved",
@@ -70,7 +69,7 @@ async def reject(run_id: str, request: HITLRequest = HITLRequest()):
             raise HTTPException(400, f"Run {run_id} is not waiting for human input")
 
     task = asyncio.create_task(_resume_graph(run_id, "rejected"))
-    _resume_tasks[run_id] = task
+    active_runs[run_id] = task
 
     return HITLResponse(
         status="rejected",
